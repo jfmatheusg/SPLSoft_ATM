@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import properties.PropertyManager;
 import splsoft.cajero.control.Comando;
 import splsoft.cajero.control.ComandoConsignar;
+import splsoft.cajero.control.ComandoImprimirLog;
 import splsoft.cajero.control.ComandoListarCuentas;
 import splsoft.cajero.control.ComandoRetirar;
 import splsoft.cajero.control.ComandoTransferir;
@@ -27,23 +29,40 @@ public class Cajero {
 		// crea el banco
 		Banco banco = new Banco();
 		
+		//Control de input
+		Scanner console = new Scanner(System.in);
+		String valorIngresado;
+		String cedula;
+		String clave;
+		boolean fin = false;
+		
 		// crea unas cuentas, para la prueba
-		banco.agregarCuenta(new Cuenta("1", "clave", 1000));
-		banco.agregarCuenta(new Cuenta("2", "clave", 2000));
-		banco.agregarCuenta(new Cuenta("3", "clave", 3000));
+		banco.agregarCuenta(new Cuenta("1", "clave", 500000));
+		banco.agregarCuenta(new Cuenta("2", "clave", 300000));
+		banco.agregarCuenta(new Cuenta("3", "clave", 400000));
 		
 		// crea los comandos que se van a usar en la aplicación
-		List<Comando> comandos = cargaComandos();
+		List<Comando> comandos = cargaComandos(banco);
 		
 		
 		// Ciclo del Programa
 		// ==================
 
-		System.out.println("Cajero Automático");
-		System.out.println("=================");
+		
+		//Se realiza la autenticación del Cliente
+		do {
+			System.out.println("Cajero Automático");
+			System.out.println("=================");
+			System.out.println();
+			System.out.println("Autentíquese por favor");
+			System.out.println("Ingrese su cedula:");
+			cedula = console.nextLine();
+			System.out.println("Ingrese su clave:");
+			clave = console.nextLine();
+		}while(!banco.validarClave(cedula, clave));
+		
 		System.out.println();
 		
-		boolean fin = false;
 		do {
 			
 			// muestra los nombres de los comandos
@@ -51,8 +70,7 @@ public class Cajero {
 			System.out.println("X.- Salir");
 			
 			// la clase Console no funciona bien en Eclipse
-			Scanner console = new Scanner(System.in);			
-			String valorIngresado = console.nextLine();
+			valorIngresado = console.nextLine();
 			
 			// obtiene el comando a ejecutar
 			Comando comandoSeleccionado = retornaComandoSeleccionado(comandos, valorIngresado);
@@ -60,7 +78,7 @@ public class Cajero {
 				
 				// intenta ejecutar el comando
 				try {
-					comandoSeleccionado.ejecutar(banco);
+					comandoSeleccionado.ejecutar(banco,cedula);
 					
 				} catch (Exception e) {
 					// si hay una excepción, muestra el mensaje
@@ -84,15 +102,22 @@ public class Cajero {
 	// =======================================
 	
 	// carga los comandos usados en el programa
-	private static List<Comando> cargaComandos() {
+	private static List<Comando> cargaComandos(Banco banco) {
 		
 		// crea los comandos que se van a usar en la aplicación
 		List<Comando> comandos = new ArrayList<>();
+		boolean transfer = PropertyManager.getProperty("Transferencias");
+		boolean deposit = PropertyManager.getProperty("Consignaciones");
 		
 		comandos.add(new ComandoListarCuentas());
 		comandos.add(new ComandoRetirar());
-		comandos.add(new ComandoConsignar());
-		comandos.add(new ComandoTransferir());
+		if(deposit) {
+			comandos.add(new ComandoConsignar());
+		}
+		if (transfer) {
+			comandos.add(new ComandoTransferir());
+		}
+		comandos.add(new ComandoImprimirLog());
 
 		return comandos;
 	}
@@ -101,7 +126,9 @@ public class Cajero {
 	// Muestra el listado de comandos, para mostrar un menú al usuario
 	// muestra el índice en el arreglo de comandos y el nombre del comando
 	private static void muestraMenuConComandos(List<Comando> comandos) {
-		
+		System.out.println("Menú Cajero Automático");
+		System.out.println("======================");
+		System.out.println();
 		// muestra los nombres de los comandos 
 		for (int i=0; i < comandos.size(); i++) {
 			System.out.println(i + ".-" + comandos.get(i).getNombre());
@@ -126,5 +153,6 @@ public class Cajero {
 		
 		return comandoSeleccionado;
 	}
+	
 	
 }

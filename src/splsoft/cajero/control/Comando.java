@@ -19,6 +19,6 @@ public interface Comando {
 	 * @param contexto    Instancia de Banco que contiene las operaciones a utilizar 
 	 * @throws Exception  Excepción que representa errores definidos por la lógica de negocio
 	 */
-	public void ejecutar(Banco contexto) throws Exception;
+	public void ejecutar(Banco contexto, String cedula) throws Exception;
 
 }

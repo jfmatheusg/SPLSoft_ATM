@@ -23,6 +23,15 @@ public class Cuenta {
 		return saldo;
 	}
 	
+	public void setSaldo(long newSaldo) {
+		this.saldo=newSaldo;
+	}
+	
+	// obtiene el valor del saldo
+	public String getClave() {
+		return clave;
+	}
+	
 	// cambia la clave de la cuenta
 	public void cambiarClave(String claveAnterior, String claveNueva) throws Exception {
 		
@@ -31,6 +40,7 @@ public class Cuenta {
 			this.clave = claveNueva;
 		}
 	}
+	
 	
 	// hace una consignación
 	public void consignar(long valor) throws Exception {

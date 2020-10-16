@@ -44,4 +44,14 @@ public class Banco {
 		cuentas.put(cuenta.getNumero(), cuenta);
 	}
 	
+	// valida la clave
+	public boolean validarClave(String cedula,String clave ) {
+		Cuenta cuentaUsuario = this.buscarCuenta(cedula);
+		// compara la clave enviada con la clave guardada
+		if (cuentaUsuario.getClave().equals(clave)) {
+			return true;
+		}
+		return false;
+	}
+	
 }

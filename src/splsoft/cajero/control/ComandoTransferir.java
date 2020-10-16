@@ -17,22 +17,14 @@ public class ComandoTransferir implements Comando {
 
 	@SuppressWarnings("resource")
 	@Override
-	public void ejecutar(Banco contexto) throws Exception {
+	public void ejecutar(Banco contexto, String cedula) throws Exception {
 		
 		System.out.println("Transferencia de Dinero");
 		System.out.println();
 		
 		// la clase Console no funciona bien en Eclipse
-		Scanner console = new Scanner(System.in);			
-		
-		// Ingresa los datos
-		System.out.println("Ingrese el número de cuenta origen");
-		String numeroCuentaOrigen = console.nextLine();
-		
-		Cuenta cuentaOrigen = contexto.buscarCuenta(numeroCuentaOrigen);
-		if (cuentaOrigen == null) {
-			throw new Exception("No existe cuenta con el número " + numeroCuentaOrigen);
-		}
+		Scanner console = new Scanner(System.in);				
+		Cuenta cuentaOrigen = contexto.buscarCuenta(cedula);
 
 		System.out.println("Ingrese el número de cuenta destino");
 		String numeroCuentaDestino = console.nextLine();
@@ -42,6 +34,7 @@ public class ComandoTransferir implements Comando {
 			throw new Exception("No existe cuenta con el número " + numeroCuentaDestino);
 		}
 		
+		System.out.println("Saldo actual destino: " + cuentaDestino.getSaldo());
 		System.out.println("Ingrese el valor a transferir");
 		String valor = console.nextLine();
 	
@@ -51,12 +44,17 @@ public class ComandoTransferir implements Comando {
 			// si no se puede retirar, no se hace la consignación
 			
 			long valorNumerico = Long.parseLong(valor);
-			cuentaOrigen.retirar(valorNumerico);
-			cuentaDestino.consignar(valorNumerico);
+			this.transferir(cuentaOrigen, cuentaDestino, valorNumerico);
+			
+			System.out.println("Nuevo saldo destino: " + cuentaDestino.getSaldo());
 		
 		} catch (NumberFormatException e) {
 			throw new Exception("Valor a transferir no válido : " + valor);
 		}
 	}
-
+	
+	public void transferir (Cuenta origen, Cuenta destino, long valor) throws Exception {
+		origen.retirar(valor);
+		destino.consignar(valor);
+	}
 }

@@ -17,7 +17,7 @@ public class ComandoConsignar implements Comando {
 
 	@SuppressWarnings("resource")
 	@Override
-	public void ejecutar(Banco contexto) throws Exception {
+	public void ejecutar(Banco contexto, String cedula) throws Exception {
 		
 		System.out.println("Consignación de Dinero");
 		System.out.println();
@@ -26,7 +26,7 @@ public class ComandoConsignar implements Comando {
 		Scanner console = new Scanner(System.in);			
 		
 		// Ingresa los datos
-		System.out.println("Ingrese el número de cuenta");
+		System.out.println("Ingrese el número de cuenta destino");
 		String numeroDeCuenta = console.nextLine();
 		
 		Cuenta cuenta = contexto.buscarCuenta(numeroDeCuenta);

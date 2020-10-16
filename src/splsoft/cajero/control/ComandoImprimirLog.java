@@ -6,22 +6,18 @@ import splsoft.cajero.modelo.Cuenta;
 /**
  * Comando usado para listar las cuentas 
  */
-public class ComandoListarCuentas implements Comando {
+public class ComandoImprimirLog implements Comando {
 
 	@Override
 	public String getNombre() {
-		return "Consultar Saldo";
+		return "Imprimir Log";
 	}
 
 	@Override
 	public void ejecutar(Banco contexto, String cedula) throws Exception {
 		
-		System.out.println("Saldo de cuenta");
+		System.out.println("Imprimiendo log de transacciones");
 		System.out.println();
-	
-		Cuenta cuentaCliente = contexto.buscarCuenta(cedula);
-		System.out.println(cuentaCliente.getNumero() + " : $ " + cuentaCliente.getSaldo());
-		
 
 	}
 

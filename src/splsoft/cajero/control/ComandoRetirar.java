@@ -17,23 +17,15 @@ public class ComandoRetirar implements Comando {
 
 	@SuppressWarnings("resource")
 	@Override
-	public void ejecutar(Banco contexto) throws Exception {
+	public void ejecutar(Banco contexto, String cedula) throws Exception {
 		
 		System.out.println("Retiro de Dinero");
 		System.out.println();
 		
 		// la clase Console no funciona bien en Eclipse
-		Scanner console = new Scanner(System.in);			
-		
-		// Ingresa los datos
-		System.out.println("Ingrese el número de cuenta");
-		String numeroDeCuenta = console.nextLine();
-		
-		Cuenta cuenta = contexto.buscarCuenta(numeroDeCuenta);
-		if (cuenta == null) {
-			throw new Exception("No existe cuenta con el número " + numeroDeCuenta);
-		}
-		
+		Scanner console = new Scanner(System.in);
+		Cuenta cuenta = contexto.buscarCuenta(cedula);
+
 		System.out.println("Ingrese el valor a retirar");
 		String valor = console.nextLine();
 	
