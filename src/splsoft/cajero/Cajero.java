@@ -8,7 +8,7 @@ import properties.PropertyManager;
 import splsoft.cajero.control.Comando;
 import splsoft.cajero.control.ComandoConsignar;
 import splsoft.cajero.control.ComandoImprimirLog;
-import splsoft.cajero.control.ComandoListarCuentas;
+import splsoft.cajero.control.ComandoConsultarSaldo;
 import splsoft.cajero.control.ComandoRetirar;
 import splsoft.cajero.control.ComandoTransferir;
 import splsoft.cajero.modelo.Banco;
@@ -109,7 +109,7 @@ public class Cajero {
 		boolean transfer = PropertyManager.getProperty("Transferencias");
 		boolean deposit = PropertyManager.getProperty("Consignaciones");
 		
-		comandos.add(new ComandoListarCuentas());
+		comandos.add(new ComandoConsultarSaldo());
 		comandos.add(new ComandoRetirar());
 		if(deposit) {
 			comandos.add(new ComandoConsignar());

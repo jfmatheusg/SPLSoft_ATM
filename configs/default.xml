@@ -7,5 +7,5 @@
 	<feature name="Consignaciones"/>
 	<feature automatic="selected" name="ListadoTransacciones"/>
 	<feature name="Auditoria"/>
-	<feature manual="selected" name="SaldoReducido"/>
+	<feature name="SaldoReducido"/>
 </configuration>

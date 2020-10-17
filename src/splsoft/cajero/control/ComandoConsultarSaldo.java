@@ -6,7 +6,7 @@ import splsoft.cajero.modelo.Cuenta;
 /**
  * Comando usado para listar las cuentas 
  */
-public class ComandoListarCuentas implements Comando {
+public class ComandoConsultarSaldo implements Comando {
 
 	@Override
 	public String getNombre() {
